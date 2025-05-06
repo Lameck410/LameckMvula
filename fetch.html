@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API</title>
+</head>
+<body>
+    <button id="loadBtn">Show Products</button>
+    <div id="results"></div>
+
+    <script>
+        const results = document.getElementById("results");
+        const button = document.getElementById("loadBtn");
+
+        button.addEventListener("click", () => {
+            fetch('https://fakestoreapi.com/products')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(product => {
+                        const img = document.createElement("img");
+                        img.src = product.image;
+                        img.alt = product.title;
+                        img.style.width = "150px";
+                        img.style.margin = "10px";
+                        results.appendChild(img);
+                    });
+                    button.style.display = "none";
+                })
+                .catch(error => {
+                    results.textContent = "Failed to load products.";
+                    console.error("Error fetching data:", error);
+                });
+        });
+    </script>
+</body>
+</html>
